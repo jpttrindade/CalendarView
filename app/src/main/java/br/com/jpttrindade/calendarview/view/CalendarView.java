@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -13,14 +14,17 @@ import android.widget.FrameLayout;
 import java.util.Calendar;
 
 import br.com.jpttrindade.calendarview.R;
+import br.com.jpttrindade.calendarview.WeekManager;
 import br.com.jpttrindade.calendarview.adapters.CalendarAdapter;
 
 public class CalendarView extends FrameLayout {
+
     private Context mContext;
     private int mYear;
+    private String[] mMonths;
+
     private RecyclerView rl_calendar;
     private RecyclerView.LayoutManager mLayoutManager;
-    private String[] mMonths;
     private CalendarAdapter mCalendarAdapter;
 
     public CalendarView(Context context) {
@@ -41,11 +45,15 @@ public class CalendarView extends FrameLayout {
     private void init(AttributeSet attrs, int defStyle) {
         // Load attributes
 
-
+        Log.i("CALENDAR_VIEW", "Century = "+new WeekManager().getWeekDay(8,9,2016));
         mContext = getContext();
         mMonths = getResources().getStringArray(R.array.months);
 
         mYear = Calendar.getInstance().get(Calendar.YEAR);
+        int mMonth = Calendar.getInstance().get(Calendar.MONTH);
+
+        Log.i("CALENDAR_VIEW", "Month = "+ mMonth);
+        Log.i("CALENDAR_VIEW", "Week Count = "+ new WeekManager().getWeekCount(10,2016));
 
         final TypedArray a = mContext.obtainStyledAttributes(attrs, R.styleable.CalendarView, defStyle, 0);
 
