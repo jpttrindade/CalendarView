@@ -11,9 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import java.util.Arrays;
 import java.util.Calendar;
 
 import br.com.jpttrindade.calendarview.R;
+import br.com.jpttrindade.calendarview.Week;
 import br.com.jpttrindade.calendarview.WeekManager;
 import br.com.jpttrindade.calendarview.adapters.CalendarAdapter;
 
@@ -53,7 +55,14 @@ public class CalendarView extends FrameLayout {
         int mMonth = Calendar.getInstance().get(Calendar.MONTH);
 
         Log.i("CALENDAR_VIEW", "Month = "+ mMonth);
-        Log.i("CALENDAR_VIEW", "Week Count = "+ new WeekManager().getWeekCount(10,2016));
+        Log.i("CALENDAR_VIEW", "Week Count = "+ new WeekManager().getWeekCount(2,2016));
+
+        Week[] weeks = new WeekManager().getWeeks(2,2016);
+
+        for (Week wk : weeks) {
+            Log.i("CALENDAR_VIEW", "Weeks = " + Arrays.toString(wk.days));
+        }
+
 
         final TypedArray a = mContext.obtainStyledAttributes(attrs, R.styleable.CalendarView, defStyle, 0);
 
