@@ -1,8 +1,9 @@
 package br.com.jpttrindade.calendarview.test;
 
-import java.util.Calendar;
+import java.util.Arrays;
 
-import br.com.jpttrindade.calendarview.WeekManager;
+import br.com.jpttrindade.calendarview.data.Week;
+import br.com.jpttrindade.calendarview.data.WeekManager;
 
 /**
  * Created by joaotrindade on 09/09/16.
@@ -13,7 +14,13 @@ public class Test {
 
 
 
-        int weeDay = manager.getWeekDay(1,4,2016);
+        int weeDay = manager.getWeekDay(10,9,2016);
+
+        Week[] weeks = manager.getWeeks(1, 2016);
+
+        for (Week wk : weeks) {
+            System.out.println(Arrays.toString(wk.days));
+        }
 
         System.out.println("WeekDay = "+weeDay);
     }

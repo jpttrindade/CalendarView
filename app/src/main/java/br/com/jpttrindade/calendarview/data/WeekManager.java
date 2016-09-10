@@ -1,6 +1,6 @@
-package br.com.jpttrindade.calendarview;
+package br.com.jpttrindade.calendarview.data;
 
-import android.util.Log;
+import br.com.jpttrindade.calendarview.data.Week;
 
 /**
  * Created by joaotrindade on 08/09/16.
@@ -15,7 +15,7 @@ public class WeekManager {
     }
 
 
-    public Week[] getWeeks(int month, int year) {
+    public static Week[] getWeeks(int month, int year) {
         int wkCount = getWeekCount(month, year);
 
         Week[] weeks = new Week[wkCount];
@@ -23,6 +23,7 @@ public class WeekManager {
         int weekDay = getWeekDay(1, month, year);
         int firstDay = 1;
         int weekMaxDay = getWeekMaxDay(month, year);
+        System.out.println("weekMaxDay = "+ weekMaxDay);
 
         Week wk;
         for (int week=0; week<wkCount; week++) {
@@ -36,24 +37,54 @@ public class WeekManager {
     }
 
     // retorna o dia da semana de uma determinada data
-    public int getWeekDay(int day, int month, int year) {
+    public static int getWeekDay(int day, int month, int year) {
 
-        year -= month < 3 ? month : 0;
-        int x = (year + (year / 4) - (year / 100) + (year / 400) + t[month - 1] + day);
+        if ((day < 0) || (day > 31)) {
+            //invalido
+        }
 
-        //int x = (day + month + year + (year/4) + getCentury(year));
+        if ((month < 0) || (month > 12)) {
+            //invalido
+        }
+        int val2x = month;
+        if (year < 1900) {
+            //nao suportado
+        }
 
+        if (month == 1) {
+            val2x = 13;
+            year = year-1;
+        }
+        if (month == 2) {
+            val2x = 14;
+            year = year-1;
+        }
+        int val4 = ((val2x+1)*3)/5;
+        int val5 = year/4;
+        int val6 = year/100;
+        int val7 = year/400;
 
+        int val8 = day+(val2x*2)+val4+year+val5-val6+val7+2;
+        int val9 = val8/7;
+        int val0 = val8-(val9*7);
 
-        return x % 7;
+/*
+        days[0] = "Sábado"
+        days[1] = "Domingo"
+        days[2] = "Segunda-Feira"
+        days[3] = "Terça-Feira"
+        days[4] = "Quarta-Feira"
+        days[5] = "Quinta-Feira"
+        days[6] = "Sexta-Feira"*/
+        return val0 == 0? 7 : val0;
     }
 
 
     // retorna o numero total de semanas de um dado mes/ano
-    public int getWeekCount(int month, int year) {
+    public static int getWeekCount(int month, int year) {
         int wd = getWeekDay(1, month, year);
 
-        Log.i("CALENDAR_VIEW", "WeekDay = " + wd);
+//        Log.i("CALENDAR_VIEW", "WeekDay = " + wd);
 
         if (month == 4 || month == 6 || month == 9 || month == 11) {
             //30
@@ -84,7 +115,7 @@ public class WeekManager {
         }
     }
 
-    public int getWeekMaxDay(int month, int year) {
+    public static int getWeekMaxDay(int month, int year) {
         if (month == 4 || month == 6 || month == 9 || month == 11) {
             return 30;
         } else {
@@ -96,11 +127,11 @@ public class WeekManager {
         }
     }
     // diz se o ano eh bissexto
-    private boolean isLeapYear(int year) {
+    private static boolean isLeapYear(int year) {
         if ((year % 4) > 0) {
             return false;
         } else if ((year % 100) > 0) {
-            return false;
+            return true;
         } else if ((year % 400) > 0) {
             return false;
         } else {

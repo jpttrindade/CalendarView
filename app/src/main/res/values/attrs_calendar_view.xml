@@ -1,6 +1,25 @@
 <resources>
     <declare-styleable name="CalendarView">
-        <attr name="month" format="string" />
+
+
+        <!-- Month Label Attrs -->
+        <attr name="monthLabelPadding" format="dimension"/>
+        <attr name="monthLabelPaddingTop" format="dimension"/>
+        <attr name="monthLabelPaddingTopBottom" format="dimension"/>
+        <attr name="monthLabelPaddingTopStart" format="dimension"/>
+        <attr name="monthLabelPaddingTopEnd" format="dimension"/>
+        <attr name="monthLabelHeight" format="dimension"/>
+        <attr name="monthLabelSize" format="dimension"/>
+        <attr name="monthLabelColor" format="color|reference"/>
+
+        <!-- Weekrow attrs -->
+
+        <attr name="weekRowHeight" format="dimension"/>
+
+
+
+
+
         <!--<attr name="exampleDimension" format="dimension" />-->
         <!--<attr name="exampleColor" format="color" />-->
         <!--<attr name="exampleDrawable" format="color|reference" />-->

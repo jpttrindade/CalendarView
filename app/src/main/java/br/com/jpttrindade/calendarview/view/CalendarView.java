@@ -7,16 +7,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import java.util.Arrays;
-import java.util.Calendar;
-
 import br.com.jpttrindade.calendarview.R;
-import br.com.jpttrindade.calendarview.Week;
-import br.com.jpttrindade.calendarview.WeekManager;
+import br.com.jpttrindade.calendarview.data.WeekManager;
 import br.com.jpttrindade.calendarview.adapters.CalendarAdapter;
 
 public class CalendarView extends FrameLayout {
@@ -49,22 +46,12 @@ public class CalendarView extends FrameLayout {
 
         Log.i("CALENDAR_VIEW", "Century = "+new WeekManager().getWeekDay(8,9,2016));
         mContext = getContext();
-        mMonths = getResources().getStringArray(R.array.months);
-
-        mYear = Calendar.getInstance().get(Calendar.YEAR);
-        int mMonth = Calendar.getInstance().get(Calendar.MONTH);
-
-        Log.i("CALENDAR_VIEW", "Month = "+ mMonth);
-        Log.i("CALENDAR_VIEW", "Week Count = "+ new WeekManager().getWeekCount(2,2016));
-
-        Week[] weeks = new WeekManager().getWeeks(2,2016);
-
-        for (Week wk : weeks) {
-            Log.i("CALENDAR_VIEW", "Weeks = " + Arrays.toString(wk.days));
-        }
-
 
         final TypedArray a = mContext.obtainStyledAttributes(attrs, R.styleable.CalendarView, defStyle, 0);
+
+
+
+
 
         LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Service.LAYOUT_INFLATER_SERVICE);
 
@@ -78,7 +65,7 @@ public class CalendarView extends FrameLayout {
         rl_calendar.setLayoutManager(mLayoutManager);
 
 
-        setAdapter();
+        setAdapter(a);
 
 
         a.recycle();
@@ -87,9 +74,17 @@ public class CalendarView extends FrameLayout {
 
     }
 
-    private void setAdapter() {
-        mCalendarAdapter = new CalendarAdapter(mContext, mMonths, mYear);
+    private void setAdapter(TypedArray a) {
+        mCalendarAdapter = new CalendarAdapter(mContext);
+        final int monthLabelHeight = (int) a.getDimension(R.styleable.CalendarView_monthLabelHeight, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) 48, getResources().getDisplayMetrics()));
+        final int weekRowHeight = (int) a.getDimension(R.styleable.CalendarView_weekRowHeight, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) 48, getResources().getDisplayMetrics()));
+
+        mCalendarAdapter.setMonthLabelHeight(monthLabelHeight);
+
+        mCalendarAdapter.setWeekRowHeight(weekRowHeight);
+
         rl_calendar.setAdapter(mCalendarAdapter);
     }
+
 
 }
