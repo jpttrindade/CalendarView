@@ -4,18 +4,25 @@ package br.com.jpttrindade.calendarview.data;
  * Created by joaotrindade on 08/09/16.
  */
 public class Week {
-    public int days[];
+    public Day days[];
 
 
     public Week (int firstDay, int weekDay, int maxDay) {
-        days = new int[7];
-        int day = firstDay;
-        for (int i=weekDay; i<=7; i++) {
-            days[i-1] =  day;
-            if (day == maxDay) {
-                i = 8;
+        days = new Day[7];
+
+        int day = 0;
+        int incr = 0;
+        for (int i=1; i<=7; i++) {
+            if(i==weekDay){
+                day = firstDay;
+                incr = 1;
             }
-            day++;
+            days[i-1] = new Day(day);
+            if (day==maxDay) {
+                day=0;
+                incr=0;
+            }
+            day+=incr;
         }
     }
 
@@ -24,7 +31,7 @@ public class Week {
     }
 
     public int getLastDay() {
-        return days[6];
+        return days[6]!=null?days[6].value:0;
     }
 
 }

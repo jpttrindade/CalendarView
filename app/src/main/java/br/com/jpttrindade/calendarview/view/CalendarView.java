@@ -62,6 +62,8 @@ public class CalendarView extends FrameLayout {
         rl_calendar.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(mContext);
+
+
         rl_calendar.setLayoutManager(mLayoutManager);
 
 

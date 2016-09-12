@@ -14,6 +14,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import br.com.jpttrindade.calendarview.R;
+import br.com.jpttrindade.calendarview.data.Day;
 import br.com.jpttrindade.calendarview.data.WeekManager;
 import br.com.jpttrindade.calendarview.data.Month;
 import br.com.jpttrindade.calendarview.holders.MonthHolder;
@@ -87,7 +88,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
 
     private void setWeeks(MonthHolder holder, Month m) {
         TextView[] weekColumns;
-        int[] days;
+        Day[] days;
         TextView tv_day;
 
 
@@ -97,8 +98,8 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
 
             for (int j=0; j<7; j++){
                 tv_day = weekColumns[j];
-                tv_day.setText("" + days[j]);
-                if(days[j] == 0) {
+                tv_day.setText("" + days[j].value);
+                if(days[j].value == 0) {
                     tv_day.setTextColor(Color.TRANSPARENT);
                 } else {
                     tv_day.setTextColor(Color.BLACK);
