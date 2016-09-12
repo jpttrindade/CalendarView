@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 import br.com.jpttrindade.calendarview.R;
 import br.com.jpttrindade.calendarview.data.WeekManager;
 import br.com.jpttrindade.calendarview.adapters.CalendarAdapter;
+import br.com.jpttrindade.calendarview.holders.MonthHolder;
 
 public class CalendarView extends FrameLayout {
 
@@ -25,6 +26,14 @@ public class CalendarView extends FrameLayout {
     private RecyclerView rl_calendar;
     private RecyclerView.LayoutManager mLayoutManager;
     private CalendarAdapter mCalendarAdapter;
+
+
+    private int previousTotal = 0; // The total number of items in the dataset after the last load
+    private boolean loading = true; // True if we are still waiting for the last set of data to load.
+    private int visibleThreshold = 1; // The minimum amount of items to have below your current scroll position before loading more.
+    int firstVisibleItem, visibleItemCount, totalItemCount;
+
+    private int currentPage = 1;
 
     public CalendarView(Context context) {
         super(context);
@@ -43,15 +52,9 @@ public class CalendarView extends FrameLayout {
 
     private void init(AttributeSet attrs, int defStyle) {
         // Load attributes
-
-        Log.i("CALENDAR_VIEW", "Century = "+new WeekManager().getWeekDay(8,9,2016));
         mContext = getContext();
 
         final TypedArray a = mContext.obtainStyledAttributes(attrs, R.styleable.CalendarView, defStyle, 0);
-
-
-
-
 
         LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Service.LAYOUT_INFLATER_SERVICE);
 
@@ -59,21 +62,55 @@ public class CalendarView extends FrameLayout {
         addView(content);
 
         rl_calendar = (RecyclerView) findViewById(R.id.rl_calendar);
-        rl_calendar.setHasFixedSize(true);
+       // rl_calendar.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(mContext);
 
 
         rl_calendar.setLayoutManager(mLayoutManager);
 
-
         setAdapter(a);
+
+        //((LinearLayoutManager)mLayoutManager).scrollToPositionWithOffset(1,500);
+
+        rl_calendar.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                visibleItemCount = recyclerView.getChildCount();
+                totalItemCount = mCalendarAdapter.getItemCount();
+                firstVisibleItem = ((LinearLayoutManager)mLayoutManager).findFirstVisibleItemPosition();
+
+                if (loading) {
+                    if (totalItemCount > previousTotal) {
+                        loading = false;
+                        previousTotal = totalItemCount;
+                    }
+                }
+                if (!loading && (totalItemCount - visibleItemCount)
+                        <= (firstVisibleItem + visibleThreshold)) {
+                    // End has been reached
+                    // Do something
+                    currentPage++;
+
+                    onLoadMore(currentPage);
+
+                    loading = true;
+                }
+            }
+        });
+
 
 
         a.recycle();
 
         invalidate();
 
+    }
+
+    private void onLoadMore(int currentPage) {
+        mCalendarAdapter.onLoadMore(currentPage);
     }
 
     private void setAdapter(TypedArray a) {
