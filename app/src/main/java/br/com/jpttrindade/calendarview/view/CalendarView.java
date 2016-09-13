@@ -6,16 +6,14 @@ import android.content.res.TypedArray;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import br.com.jpttrindade.calendarview.R;
-import br.com.jpttrindade.calendarview.data.WeekManager;
 import br.com.jpttrindade.calendarview.adapters.CalendarAdapter;
-import br.com.jpttrindade.calendarview.holders.MonthHolder;
 
 public class CalendarView extends FrameLayout {
 
@@ -26,6 +24,7 @@ public class CalendarView extends FrameLayout {
     private RecyclerView rl_calendar;
     private RecyclerView.LayoutManager mLayoutManager;
     private CalendarAdapter mCalendarAdapter;
+    private OnDayClickListener mOnDayClickListener;
 
 
     private int previousTotal = 0; // The total number of items in the dataset after the last load
@@ -120,7 +119,26 @@ public class CalendarView extends FrameLayout {
         mCalendarAdapter.setWeekRowHeight(weekRowHeight);
 
         rl_calendar.setAdapter(mCalendarAdapter);
+
+        mCalendarAdapter.setOnDayClickListener(new OnDayClickListener(){
+
+            @Override
+            public void onClick(int day, int month, int year) {
+
+                //Toast.makeText(getContext(), day+"/"+month+"/"+year, Toast.LENGTH_SHORT).show();
+                if (mOnDayClickListener != null) {
+                    mOnDayClickListener.onClick(day, month, year);
+                }
+            }
+        });
     }
 
+    public void setOnDayClickListener(OnDayClickListener onDayClickListener) {
+        mOnDayClickListener = onDayClickListener;
+    }
+
+    public interface OnDayClickListener {
+        public void onClick(int day, int month, int year);
+    }
 
 }

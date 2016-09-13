@@ -20,6 +20,7 @@ import br.com.jpttrindade.calendarview.data.Day;
 import br.com.jpttrindade.calendarview.data.WeekManager;
 import br.com.jpttrindade.calendarview.data.Month;
 import br.com.jpttrindade.calendarview.holders.MonthHolder;
+import br.com.jpttrindade.calendarview.view.CalendarView;
 
 /**
  * Created by joaotrindade on 06/09/16.
@@ -50,6 +51,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
 
 
     private int PAYLOAD = 3; // o numero de meses que serao carregados antes e depois do mes atual.
+    private CalendarView.OnDayClickListener onDayClickListener;
 
     public CalendarAdapter(Context context) {
         mContext = context;
@@ -82,7 +84,14 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
 
         View v = LayoutInflater.from(mContext).inflate(R.layout.month_view, parent, false);
 
-        MonthHolder mh = new MonthHolder(v, viewType);
+        MonthHolder mh = new MonthHolder(v, viewType, new CalendarView.OnDayClickListener(){
+            @Override
+            public void onClick(int day, int month, int year) {
+                if (onDayClickListener != null) {
+                    onDayClickListener.onClick(day, month, year);
+                }
+            }
+        });
 
         mh.setLabelMonthHeight(monthLabelHeight);
         mh.setWeekRowHeight(weekRowHeight);
@@ -98,6 +107,10 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
         Month m = mMonths.get(position);
         setLabel(holder, m);
         setWeeks(holder, m);
+
+        holder.mYear = m.year;
+        holder.mMonth = m.value;
+
         //Log.d("DEBUG", "position = "+position);
         //Log.d("DEBUG", "month = "+mMonthLabels.get(m.value-1));
 
@@ -107,7 +120,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
         String year = (m.year != startYear ? " de "+m.year : "");
         holder.label_month.setText(mMonthLabels.get(m.value-1) + year);
 
-        if(m.value == startMonth) {
+        if(m.value == startMonth && m.year == startYear) {
             holder.label_month.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
         } else {
             holder.label_month.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
@@ -209,4 +222,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
 
     }
 
+    public void setOnDayClickListener(CalendarView.OnDayClickListener onDayClickListener) {
+        this.onDayClickListener = onDayClickListener;
+    }
 }

@@ -13,12 +13,14 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import br.com.jpttrindade.calendarview.R;
+import br.com.jpttrindade.calendarview.view.CalendarView;
 
 /**
  * Created by joaotrindade on 06/09/16.
  */
 public class MonthHolder extends RecyclerView.ViewHolder {
 
+    private CalendarView.OnDayClickListener mOnDayClickListener;
     public Context mContext;
     public TextView label_month;
     public LinearLayout weeks_container;
@@ -26,14 +28,22 @@ public class MonthHolder extends RecyclerView.ViewHolder {
     public int weekRowsCount;
     private int weekRowHeight;
 
-    public MonthHolder(View itemView, int weekRowsCount) {
+    public int mMonth;
+    public int mYear;
+
+
+    public MonthHolder(View itemView, int weekRowsCount, CalendarView.OnDayClickListener onDayClickListener) {
         super(itemView);
+
         this.weekRowsCount = weekRowsCount ;
+
         mContext = itemView.getContext();
         label_month = (TextView) itemView.findViewById(R.id.label_month);
         weeks_container = (LinearLayout) itemView.findViewById(R.id.weeks_container);
         weeksColumns = new ArrayList<TextView[]>();
         //generateWeekRows();
+
+        mOnDayClickListener = onDayClickListener;
     }
 
     public void generateWeekRows() {
@@ -62,6 +72,17 @@ public class MonthHolder extends RecyclerView.ViewHolder {
         TextView tv;
         for (int i=0; i<7; i++) {
             tv = new TextView(mContext);
+
+            tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int day = Integer.parseInt(((TextView)view).getText().toString());
+                    if (day > 0) {
+                        mOnDayClickListener.onClick(day, mMonth, mYear);
+                    }
+                }
+            });
+
             tv.setLayoutParams(
                     new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT,
