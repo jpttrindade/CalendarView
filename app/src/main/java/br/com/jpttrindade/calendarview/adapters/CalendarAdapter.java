@@ -58,43 +58,16 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
         startYear = c.get(Calendar.YEAR);
         startMonth = c.get(Calendar.MONTH)+1;
 
-        PAYLOAD++;
         mMonths = new ArrayList<Month>();
 
-        if (startMonth < PAYLOAD) {
-            earlyYearLoaded = startYear - 1;
-            earlyMonthLoaded = 12 - (PAYLOAD - startMonth);
-            laterMonthLoaded = startMonth + 3;
-            laterYearLoaded = startYear;
+        earlyMonthLoaded = startMonth;
+        earlyYearLoaded = startYear;
+        laterYearLoaded = startYear;
+        laterMonthLoaded = startMonth;
 
-        } else if (startMonth > (12-PAYLOAD)) {
-            earlyYearLoaded = startYear;
-            //TODO conferir esse earlyMonthLoaded
-            earlyMonthLoaded = startMonth - PAYLOAD;
-            laterYearLoaded = startYear+1;
-
-
-
-           // getMonths();
-        } else {
-
-        }
-
-        getMonths(earlyMonthLoaded, earlyYearLoaded, laterMonthLoaded, laterYearLoaded);
-
-
-
-
-
-//        if (startMonth > 1) {
-//            lastMonthLoaded = startMonth+1;
-//            getMonths(startMonth-1, lastMonthLoaded , startYear);
-//
-//        } else {
-//            lastMonthLoaded = startMonth+2;
-//            getMonths(startMonth, lastMonthLoaded, startYear);
-//        }
-
+        mMonths.add(new Month(startMonth, startYear));
+        getPreviousMonth();
+        getNextMonths();
     }
 
 
@@ -180,61 +153,60 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
         this.weekRowHeight = weekRowHeight;
     }
 
-    public void onLoadMore(int currentPage) {
-        Log.d("DEBUG", "CalendarAdapter.onLoadMore()");
-//        if(lastMonthLoaded == 12) {
-//            getMonths(1, 3, startYear + 1);
-//            lastMonthLoaded = 3;
-//        }
-//        if (lastMonthLoaded == 11) {
-//            getMonths(lastMonthLoaded+1, lastMonthLoaded+1, startYear);
-//            getMonths(1, 2, startYear+1);
-//            lastMonthLoaded = 2;
-//        }
-//
-//        if (lastMonthLoaded == 10) {
-//            getMonths(lastMonthLoaded+1, lastMonthLoaded+2, startYear);
-//            getMonths(1, 1, startYear+1);
-//            lastMonthLoaded = 1;
-//        }
 
+    public void getPreviousMonth() {
+        if (earlyMonthLoaded <= PAYLOAD) {
+            for (int i=earlyMonthLoaded-1; i>0; i--) {
+                mMonths.add(0, new Month(i, earlyYearLoaded));
+                //notifyItemRangeInserted(0, 1);
 
-        notifyDataSetChanged();
-        //getMonths(lastMonthLoaded+1, lastMonthLoaded+3, );
-    }
-
-
-    private void getMonths(int earlyMonth, int earlyYear, int laterMonth, int laterYear){
-        ArrayList<Month> tempMonths = new ArrayList<>();
-
-        for (int i=earlyMonth; i<13; i++) {
-            tempMonths.add(new Month(i, earlyYear));
-        }
-
-        for (int i=1; i<laterMonth+1; i++) {
-            tempMonths.add(new Month(i, laterYear));
-        }
-
-        if (laterYear > startYear) {
-            mMonths.addAll(tempMonths);
-            return;
-        }
-
-        if (laterYear == startYear){
-            if(laterMonth > startMonth){
-                mMonths.addAll(tempMonths);
-                return;
             }
+
+            earlyMonthLoaded = 12 - (PAYLOAD - earlyMonthLoaded);
+            earlyYearLoaded--;
+
+            for (int i=12; i>=earlyMonthLoaded; i--) {
+                mMonths.add(0, new Month(i, earlyYearLoaded));
+                //notifyItemRangeInserted(0, 1);
+            }
+        } else {
+            for (int i=earlyMonthLoaded-1; i>=earlyMonthLoaded-PAYLOAD; i--) {
+                mMonths.add(0, new Month(i, earlyYearLoaded));
+                //notifyItemRangeInserted(0, 1);
+
+            }
+            earlyMonthLoaded -= PAYLOAD;
         }
 
-        mMonths.addAll(0,tempMonths);
+        notifyItemRangeInserted(0, PAYLOAD);
+
+       // notifyDataSetChanged();
 
     }
 
-    private void getMonths(int firtMonth, int lastMonth, int year) {
-        for(int i=firtMonth; i<lastMonth+1; i++) {
-            mMonths.add(new Month(i, year));
+    public void getNextMonths() {
+        int positionStart = mMonths.size()-1;
+        if (laterMonthLoaded > (12 - PAYLOAD)) {
+            for (int i=laterMonthLoaded+1; i<=12; i++) {
+                mMonths.add(new Month(i, laterYearLoaded));
+            }
+
+            laterMonthLoaded = laterMonthLoaded + PAYLOAD - 12;
+            laterYearLoaded++;
+
+            for (int i=1; i <= laterMonthLoaded; i++) {
+                mMonths.add(new Month(i, laterYearLoaded));
+            }
+        } else {
+            for (int i=laterMonthLoaded+1; i <= laterMonthLoaded+PAYLOAD; i++) {
+                mMonths.add(new Month(i, laterYearLoaded));
+            }
+            laterMonthLoaded += PAYLOAD;
         }
+
+
+        notifyItemRangeInserted(positionStart, PAYLOAD);
+
     }
 
 }

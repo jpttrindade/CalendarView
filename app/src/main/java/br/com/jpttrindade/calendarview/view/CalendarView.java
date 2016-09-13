@@ -51,7 +51,6 @@ public class CalendarView extends FrameLayout {
     }
 
     private void init(AttributeSet attrs, int defStyle) {
-        // Load attributes
         mContext = getContext();
 
         final TypedArray a = mContext.obtainStyledAttributes(attrs, R.styleable.CalendarView, defStyle, 0);
@@ -62,7 +61,6 @@ public class CalendarView extends FrameLayout {
         addView(content);
 
         rl_calendar = (RecyclerView) findViewById(R.id.rl_calendar);
-       // rl_calendar.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(mContext);
 
@@ -71,7 +69,7 @@ public class CalendarView extends FrameLayout {
 
         setAdapter(a);
 
-        //((LinearLayoutManager)mLayoutManager).scrollToPositionWithOffset(1,500);
+        mLayoutManager.scrollToPosition(3);
 
         rl_calendar.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -91,11 +89,14 @@ public class CalendarView extends FrameLayout {
                 if (!loading && (totalItemCount - visibleItemCount)
                         <= (firstVisibleItem + visibleThreshold)) {
                     // End has been reached
-                    // Do something
-                    currentPage++;
+                    mCalendarAdapter.getNextMonths();
 
-                    onLoadMore(currentPage);
+                    loading = true;
+                }
 
+                if (!loading && (firstVisibleItem <= 1+visibleThreshold)) {
+                    // Start has been reached
+                    mCalendarAdapter.getPreviousMonth();
                     loading = true;
                 }
             }
@@ -107,10 +108,6 @@ public class CalendarView extends FrameLayout {
 
         invalidate();
 
-    }
-
-    private void onLoadMore(int currentPage) {
-        mCalendarAdapter.onLoadMore(currentPage);
     }
 
     private void setAdapter(TypedArray a) {
