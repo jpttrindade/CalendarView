@@ -81,7 +81,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
 
     @Override
     public MonthHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         View v = LayoutInflater.from(mContext).inflate(R.layout.month_view, parent, false);
 
         MonthHolder mh = new MonthHolder(v, viewType, new CalendarView.OnDayClickListener(){
@@ -95,9 +94,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
 
         mh.setLabelMonthHeight(monthLabelHeight);
         mh.setWeekRowHeight(weekRowHeight);
-
         mh.generateWeekRows();
-
         return  mh;
     }
 
@@ -110,10 +107,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
 
         holder.mYear = m.year;
         holder.mMonth = m.value;
-
-        //Log.d("DEBUG", "position = "+position);
-        //Log.d("DEBUG", "month = "+mMonthLabels.get(m.value-1));
-
     }
 
     private void setLabel(MonthHolder holder, Month m) {
@@ -193,8 +186,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
 
         notifyItemRangeInserted(0, PAYLOAD);
 
-       // notifyDataSetChanged();
-
     }
 
     public void getNextMonths() {
@@ -216,10 +207,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
             }
             laterMonthLoaded += PAYLOAD;
         }
-
-
         notifyItemRangeInserted(positionStart, PAYLOAD);
-
     }
 
     public void setOnDayClickListener(CalendarView.OnDayClickListener onDayClickListener) {

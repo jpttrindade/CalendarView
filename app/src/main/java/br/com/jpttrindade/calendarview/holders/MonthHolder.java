@@ -69,9 +69,17 @@ public class MonthHolder extends RecyclerView.ViewHolder {
     void generateWeekColumns(LinearLayout linearLayout) {
         TextView[] columns = new TextView[7];
 
+
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+
         TextView tv;
+        View container;
         for (int i=0; i<7; i++) {
-            tv = new TextView(mContext);
+            container = inflater.inflate(R.layout.day_view, linearLayout, false);
+
+
+            //tv = new TextView(mContext);
+            tv = (TextView) container.findViewById(R.id.tv_day);
 
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -83,14 +91,16 @@ public class MonthHolder extends RecyclerView.ViewHolder {
                 }
             });
 
-            tv.setLayoutParams(
-                    new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                            ViewGroup.LayoutParams.WRAP_CONTENT,
-                            1f));
-
-            tv.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
+//            tv.setLayoutParams(
+//                    new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+//                            ViewGroup.LayoutParams.WRAP_CONTENT,
+//                            1f));
+//
+//            tv.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
             //tv.setBackgroundColor(Color.YELLOW);
-            linearLayout.addView(tv);
+
+
+            linearLayout.addView(container);
             columns[i] = tv;
         }
         weeksColumns.add(columns);
