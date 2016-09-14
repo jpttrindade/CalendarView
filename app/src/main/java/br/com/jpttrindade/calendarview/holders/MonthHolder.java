@@ -11,7 +11,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import br.com.jpttrindade.calendarview.R;
-import br.com.jpttrindade.calendarview.data.Week;
 import br.com.jpttrindade.calendarview.view.CalendarView;
 
 /**
@@ -78,7 +77,9 @@ public class MonthHolder extends RecyclerView.ViewHolder {
 
 
             //tv = new TextView(mContext);
-            View circle = container.findViewById(R.id.circle);
+            View event_circle = container.findViewById(R.id.circle);
+            View today_circle = container.findViewById(R.id.today_circle);
+
             tv_dayValue = (TextView) container.findViewById(R.id.tv_day);
 
             tv_dayValue.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +94,7 @@ public class MonthHolder extends RecyclerView.ViewHolder {
 
             linearLayout.addView(container);
 
-            columns[i] = new WeekDayView(tv_dayValue, circle);
+            columns[i] = new WeekDayView(tv_dayValue, event_circle,  today_circle);
         }
         weeksColumns.add(columns);
 
@@ -110,11 +111,15 @@ public class MonthHolder extends RecyclerView.ViewHolder {
 
     public class WeekDayView {
         public TextView tv_value;
-        public View v_circle;
-        public WeekDayView(TextView value, View circle) {
+        public View v_today_circle;
+        public View v_event_circle;
+
+        public WeekDayView(TextView value, View circle, View v_today_circle) {
             this.tv_value = value;
-            this.v_circle = circle;
-            this.v_circle.setVisibility(View.INVISIBLE);
+            this.v_event_circle = circle;
+            this.v_today_circle = v_today_circle;
+            this.v_event_circle.setVisibility(View.INVISIBLE);
+            this.v_today_circle.setVisibility(View.INVISIBLE);
         }
     }
 }

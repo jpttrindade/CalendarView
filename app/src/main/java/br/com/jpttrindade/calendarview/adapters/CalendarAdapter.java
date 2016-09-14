@@ -18,7 +18,6 @@ import java.util.List;
 
 import br.com.jpttrindade.calendarview.R;
 import br.com.jpttrindade.calendarview.data.Day;
-import br.com.jpttrindade.calendarview.data.Week;
 import br.com.jpttrindade.calendarview.data.WeekManager;
 import br.com.jpttrindade.calendarview.data.Month;
 import br.com.jpttrindade.calendarview.holders.MonthHolder;
@@ -34,9 +33,9 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
     private final ArrayList<Month> mMonths;
     private final Context mContext;
 
-    private final int startYear; //ano atual (real)
-    private final int startMonth; // mes atual (real)
-
+    private int startYear; //ano atual (real)
+    private int startMonth; // mes atual (real)
+    private int today;
 
 
     private int earlyMonthLoaded; //mes mais antigo ja carregado
@@ -62,6 +61,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
         Calendar c = Calendar.getInstance();
         startYear = c.get(Calendar.YEAR);
         startMonth = c.get(Calendar.MONTH)+1;
+        today = c.get(Calendar.DAY_OF_MONTH);
 
         mMonths = new ArrayList<Month>();
         mEvents = new HashMap<>();
@@ -108,6 +108,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
         Month m = mMonths.get(position);
         setLabel(holder, m);
         setWeeks(holder, m);
+
         holder.mYear = m.year;
         holder.mMonth = m.value;
 
@@ -137,17 +138,18 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
             days = m.weeks[i].days;
             String key;
             for (int j=0; j<7; j++){
-                v_circle = weekColumns[j].v_circle;
+                v_circle = weekColumns[j].v_event_circle;
                 tv_day = weekColumns[j].tv_value;
                 tv_day.setText("" + days[j].value);
 
-                if(days[j].value == 0) {
-                    tv_day.setTextColor(Color.TRANSPARENT);
-                } else {
-                    tv_day.setTextColor(Color.BLACK);
-                }
+                tv_day.setTextColor((days[j].value == 0) ? Color.TRANSPARENT : Color.BLACK);
+
                 key = String.format("%d%d%d", days[j].value, m.value, m.year);
+
                 v_circle.setVisibility(mEvents.containsKey(key) ? View.VISIBLE : View.INVISIBLE);
+
+                weekColumns[j].v_today_circle.setVisibility((m.year == startYear && m.value == startMonth && days[j].value == today) ? View.VISIBLE : View.GONE);
+
 
             }
         }

@@ -1,21 +1,56 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
+
+def getVersionName()
+{
+    return '0.6.0'
+}
+
+ext {
+    bintrayRepo = 'br.com.jpttrindade'
+    bintrayName = 'CalendarView'
+
+    publishedGroupId = 'br.com.jpttrindade'
+    libraryName = 'CalendarView'
+    artifact = 'calendarview'
+
+    libraryDescription = 'CalendarView'
+
+    siteUrl = 'https://github.com/jpttrindade/calendarview'
+    gitUrl = 'https://github.com/jpttrindade/calendarview.git'
+
+    libraryVersion = getVersionName()
+
+    developerId = 'jpttrindade'
+    developerName = 'Joao Paulo T Trindade'
+    developerEmail = 'tenoriojpaulo@gmail.com'
+
+    licenseName = 'The MIT License (MIT)'
+    licenseUrl = 'https://opensource.org/licenses/MIT'
+    allLicenses = ["MIT"]
+}
+
 
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.2"
 
     defaultConfig {
-        applicationId "br.com.jpttrindade.calendarview"
         minSdkVersion 21
         targetSdkVersion 24
-        versionCode 50
-        versionName "0.5.0"
+        versionCode 60
+        versionName getVersionName()
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+}
+
+repositories {
+    maven {
+        url 'https://dl.bintray.com/jpttrindade/br.com.jpttrindade'
     }
 }
 
@@ -26,3 +61,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.2.1'
 
 }
+
+// Place it at the end of the file
+apply from: 'https://raw.githubusercontent.com/jpttrindade/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/jpttrindade/JCenter/master/bintrayv1.gradle'

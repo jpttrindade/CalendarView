@@ -11,7 +11,9 @@
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tv_title"/>
+        android:layout_below="@id/tv_title"
+        app:weekRowHeight="60dp"
+        />
 
 
     <!--app:exampleColor="#33b5e5"-->
