@@ -32,7 +32,6 @@ public class CalendarView extends FrameLayout {
     private int visibleThreshold = 1; // The minimum amount of items to have below your current scroll position before loading more.
     int firstVisibleItem, visibleItemCount, totalItemCount;
 
-    private int currentPage = 1;
 
     public CalendarView(Context context) {
         super(context);
@@ -139,6 +138,10 @@ public class CalendarView extends FrameLayout {
 
     public interface OnDayClickListener {
         public void onClick(int day, int month, int year);
+    }
+
+    public void addEvent(int day, int month, int year) {
+        mCalendarAdapter.addEvent(day, month, year);
     }
 
 }

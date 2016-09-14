@@ -13,10 +13,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import br.com.jpttrindade.calendarview.R;
 import br.com.jpttrindade.calendarview.data.Day;
+import br.com.jpttrindade.calendarview.data.Week;
 import br.com.jpttrindade.calendarview.data.WeekManager;
 import br.com.jpttrindade.calendarview.data.Month;
 import br.com.jpttrindade.calendarview.holders.MonthHolder;
@@ -52,6 +54,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
 
     private int PAYLOAD = 3; // o numero de meses que serao carregados antes e depois do mes atual.
     private CalendarView.OnDayClickListener onDayClickListener;
+    private HashMap<String, Boolean> mEvents;
 
     public CalendarAdapter(Context context) {
         mContext = context;
@@ -61,6 +64,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
         startMonth = c.get(Calendar.MONTH)+1;
 
         mMonths = new ArrayList<Month>();
+        mEvents = new HashMap<>();
 
         earlyMonthLoaded = startMonth;
         earlyYearLoaded = startYear;
@@ -104,11 +108,11 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
         Month m = mMonths.get(position);
         setLabel(holder, m);
         setWeeks(holder, m);
-
         holder.mYear = m.year;
         holder.mMonth = m.value;
-    }
 
+
+    }
     private void setLabel(MonthHolder holder, Month m) {
         String year = (m.year != startYear ? " de "+m.year : "");
         holder.label_month.setText(mMonthLabels.get(m.value-1) + year);
@@ -123,23 +127,28 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
 
 
     private void setWeeks(MonthHolder holder, Month m) {
-        TextView[] weekColumns;
+        MonthHolder.WeekDayView[] weekColumns;
         Day[] days;
         TextView tv_day;
-
+        View v_circle;
 
         for (int i=0; i<holder.weekRowsCount; i++) {
             weekColumns = holder.weeksColumns.get(i);
             days = m.weeks[i].days;
-
+            String key;
             for (int j=0; j<7; j++){
-                tv_day = weekColumns[j];
+                v_circle = weekColumns[j].v_circle;
+                tv_day = weekColumns[j].tv_value;
                 tv_day.setText("" + days[j].value);
+
                 if(days[j].value == 0) {
                     tv_day.setTextColor(Color.TRANSPARENT);
                 } else {
                     tv_day.setTextColor(Color.BLACK);
                 }
+                key = String.format("%d%d%d", days[j].value, m.value, m.year);
+                v_circle.setVisibility(mEvents.containsKey(key) ? View.VISIBLE : View.INVISIBLE);
+
             }
         }
 
@@ -212,5 +221,13 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
 
     public void setOnDayClickListener(CalendarView.OnDayClickListener onDayClickListener) {
         this.onDayClickListener = onDayClickListener;
+    }
+
+    public void addEvent(int day, int month, int year) {
+        //Month m = getMonth(month, year);
+
+        String key = String.format("%d%d%d", day,month, year);
+        Log.d("DEBUG", "Key = "+ key);
+        mEvents.put(key, true);
     }
 }

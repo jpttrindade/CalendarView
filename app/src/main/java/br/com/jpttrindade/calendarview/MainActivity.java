@@ -20,6 +20,13 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        calendarView.addEvent(13,2,2016);
+        calendarView.addEvent(30,3,2016);
+        calendarView.addEvent(7,7,2016);
+        calendarView.addEvent(20,12,2016);
+
+
+
         calendarView.setOnDayClickListener(new CalendarView.OnDayClickListener() {
             @Override
             public void onClick(int day, int month, int year) {

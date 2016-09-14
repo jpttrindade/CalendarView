@@ -1,18 +1,17 @@
 package br.com.jpttrindade.calendarview.holders;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import br.com.jpttrindade.calendarview.R;
+import br.com.jpttrindade.calendarview.data.Week;
 import br.com.jpttrindade.calendarview.view.CalendarView;
 
 /**
@@ -24,7 +23,7 @@ public class MonthHolder extends RecyclerView.ViewHolder {
     public Context mContext;
     public TextView label_month;
     public LinearLayout weeks_container;
-    public ArrayList<TextView[]> weeksColumns;
+    public ArrayList<WeekDayView[]> weeksColumns;
     public int weekRowsCount;
     private int weekRowHeight;
 
@@ -40,7 +39,7 @@ public class MonthHolder extends RecyclerView.ViewHolder {
         mContext = itemView.getContext();
         label_month = (TextView) itemView.findViewById(R.id.label_month);
         weeks_container = (LinearLayout) itemView.findViewById(R.id.weeks_container);
-        weeksColumns = new ArrayList<TextView[]>();
+        weeksColumns = new ArrayList<WeekDayView[]>();
         //generateWeekRows();
 
         mOnDayClickListener = onDayClickListener;
@@ -67,21 +66,22 @@ public class MonthHolder extends RecyclerView.ViewHolder {
     }
 
     void generateWeekColumns(LinearLayout linearLayout) {
-        TextView[] columns = new TextView[7];
+        WeekDayView[] columns = new WeekDayView[7];
 
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
 
-        TextView tv;
+        TextView tv_dayValue;
         View container;
         for (int i=0; i<7; i++) {
             container = inflater.inflate(R.layout.day_view, linearLayout, false);
 
 
             //tv = new TextView(mContext);
-            tv = (TextView) container.findViewById(R.id.tv_day);
+            View circle = container.findViewById(R.id.circle);
+            tv_dayValue = (TextView) container.findViewById(R.id.tv_day);
 
-            tv.setOnClickListener(new View.OnClickListener() {
+            tv_dayValue.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int day = Integer.parseInt(((TextView)view).getText().toString());
@@ -91,17 +91,9 @@ public class MonthHolder extends RecyclerView.ViewHolder {
                 }
             });
 
-//            tv.setLayoutParams(
-//                    new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-//                            ViewGroup.LayoutParams.WRAP_CONTENT,
-//                            1f));
-//
-//            tv.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
-            //tv.setBackgroundColor(Color.YELLOW);
-
-
             linearLayout.addView(container);
-            columns[i] = tv;
+
+            columns[i] = new WeekDayView(tv_dayValue, circle);
         }
         weeksColumns.add(columns);
 
@@ -114,5 +106,15 @@ public class MonthHolder extends RecyclerView.ViewHolder {
 
     public void setWeekRowHeight(int weekRowHeight) {
         this.weekRowHeight = weekRowHeight;
+    }
+
+    public class WeekDayView {
+        public TextView tv_value;
+        public View v_circle;
+        public WeekDayView(TextView value, View circle) {
+            this.tv_value = value;
+            this.v_circle = circle;
+            this.v_circle.setVisibility(View.INVISIBLE);
+        }
     }
 }

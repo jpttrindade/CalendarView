@@ -1,5 +1,7 @@
 package br.com.jpttrindade.calendarview.data;
 
+import android.util.Log;
+
 /**
  * Created by joaotrindade on 08/09/16.
  */
@@ -31,7 +33,11 @@ public class Week {
     }
 
     public int getLastDay() {
-        return days[6]!=null?days[6].value:0;
+        int i=6;
+        while (days[i].value == 0) {
+            i--;
+        }
+        return days[i].value;
     }
 
 }
