@@ -47,16 +47,14 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
     private WeekManager weekManager;
 
 
-    private int monthLabelHeight;
-    private int weekRowHeight;
-
-
     private int PAYLOAD = 3; // o numero de meses que serao carregados antes e depois do mes atual.
     private CalendarView.OnDayClickListener onDayClickListener;
     private HashMap<String, Boolean> mEvents;
+    private CalendarView.Attributes attrs;
 
-    public CalendarAdapter(Context context) {
+    public CalendarAdapter(Context context, CalendarView.Attributes calendarAttrs) {
         mContext = context;
+        attrs = calendarAttrs;
         mMonthLabels = Arrays.asList(context.getResources().getStringArray(R.array.months));
         Calendar c = Calendar.getInstance();
         startYear = c.get(Calendar.YEAR);
@@ -87,7 +85,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
     public MonthHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.month_view, parent, false);
 
-        MonthHolder mh = new MonthHolder(v, viewType, new CalendarView.OnDayClickListener(){
+        MonthHolder mh = new MonthHolder(v, viewType, attrs,new CalendarView.OnDayClickListener(){
             @Override
             public void onClick(int day, int month, int year) {
                 if (onDayClickListener != null) {
@@ -95,9 +93,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
                 }
             }
         });
-
-        mh.setLabelMonthHeight(monthLabelHeight);
-        mh.setWeekRowHeight(weekRowHeight);
         mh.generateWeekRows();
         return  mh;
     }
@@ -162,13 +157,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
     }
 
 
-    public void setMonthLabelHeight(int monthLabelHeight) {
-        this.monthLabelHeight = monthLabelHeight;
-    }
-
-    public void setWeekRowHeight(int weekRowHeight) {
-        this.weekRowHeight = weekRowHeight;
-    }
 
 
     public void getPreviousMonth() {
@@ -232,4 +220,5 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
         Log.d("DEBUG", "Key = "+ key);
         mEvents.put(key, true);
     }
+
 }

@@ -13,8 +13,9 @@
         <attr name="monthLabelColor" format="color|reference"/>
 
         <!-- Weekrow attrs -->
+        <attr name="dayHeight" format="dimension"/>
+        <attr name="dayWidth" format="dimension"/>
 
-        <attr name="weekRowHeight" format="dimension"/>
 
 
 

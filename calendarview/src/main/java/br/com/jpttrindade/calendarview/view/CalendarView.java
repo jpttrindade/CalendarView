@@ -6,11 +6,11 @@ import android.content.res.TypedArray;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import br.com.jpttrindade.calendarview.R;
 import br.com.jpttrindade.calendarview.adapters.CalendarAdapter;
@@ -25,6 +25,7 @@ public class CalendarView extends FrameLayout {
     private RecyclerView.LayoutManager mLayoutManager;
     private CalendarAdapter mCalendarAdapter;
     private OnDayClickListener mOnDayClickListener;
+    private Attributes calendarAttrs;
 
 
     private int previousTotal = 0; // The total number of items in the dataset after the last load
@@ -51,7 +52,8 @@ public class CalendarView extends FrameLayout {
     private void init(AttributeSet attrs, int defStyle) {
         mContext = getContext();
 
-        final TypedArray a = mContext.obtainStyledAttributes(attrs, R.styleable.CalendarView, defStyle, 0);
+        calendarAttrs = new Attributes();
+        getAttrs(attrs, defStyle);
 
         LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Service.LAYOUT_INFLATER_SERVICE);
 
@@ -59,13 +61,10 @@ public class CalendarView extends FrameLayout {
         addView(content);
 
         rl_calendar = (RecyclerView) findViewById(R.id.rl_calendar);
-
         mLayoutManager = new LinearLayoutManager(mContext);
-
-
         rl_calendar.setLayoutManager(mLayoutManager);
 
-        setAdapter(a);
+        setAdapter();
 
         mLayoutManager.scrollToPosition(3);
 
@@ -88,7 +87,6 @@ public class CalendarView extends FrameLayout {
                         <= (firstVisibleItem + visibleThreshold)) {
                     // End has been reached
                     mCalendarAdapter.getNextMonths();
-
                     loading = true;
                 }
 
@@ -102,20 +100,35 @@ public class CalendarView extends FrameLayout {
 
 
 
-        a.recycle();
+//        a.recycle();
 
         invalidate();
 
     }
 
-    private void setAdapter(TypedArray a) {
-        mCalendarAdapter = new CalendarAdapter(mContext);
-        final int monthLabelHeight = (int) a.getDimension(R.styleable.CalendarView_monthLabelHeight, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) 48, getResources().getDisplayMetrics()));
-        final int weekRowHeight = (int) a.getDimension(R.styleable.CalendarView_weekRowHeight, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) 48, getResources().getDisplayMetrics()));
+    private void getAttrs(AttributeSet attrs, int defStyle) {
+        final TypedArray a = mContext.obtainStyledAttributes(attrs, R.styleable.CalendarView, defStyle, 0);
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
 
-        mCalendarAdapter.setMonthLabelHeight(monthLabelHeight);
 
-        mCalendarAdapter.setWeekRowHeight(weekRowHeight);
+
+        calendarAttrs.dayHeight = (int) a.getDimension(R.styleable.CalendarView_dayHeight, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) 48, displayMetrics));
+        calendarAttrs.dayWidth = (int) a.getDimension(R.styleable.CalendarView_dayWidth, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) 48, displayMetrics));
+
+
+
+
+        calendarAttrs.monthLabelHeight = (int) a.getDimension(R.styleable.CalendarView_monthLabelHeight, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) 48, displayMetrics));
+
+        a.recycle();
+    }
+
+    private void setAdapter() {
+        mCalendarAdapter = new CalendarAdapter(mContext, calendarAttrs);
+
+        //mCalendarAdapter.setMonthLabelHeight(monthLabelHeight);
+
+        //mCalendarAdapter.setDayHeight(dayHeight);
 
         rl_calendar.setAdapter(mCalendarAdapter);
 
@@ -136,12 +149,23 @@ public class CalendarView extends FrameLayout {
         mOnDayClickListener = onDayClickListener;
     }
 
-    public interface OnDayClickListener {
-        public void onClick(int day, int month, int year);
-    }
 
     public void addEvent(int day, int month, int year) {
         mCalendarAdapter.addEvent(day, month, year);
     }
 
+
+
+    /* Classes & Interfaces*/
+
+    public interface OnDayClickListener {
+        public void onClick(int day, int month, int year);
+    }
+
+
+    public class Attributes {
+        public int dayWidth;
+        public int dayHeight;
+        public int monthLabelHeight;
+    }
 }

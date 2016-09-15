@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="wrap_content"
-    android:paddingLeft="16dp"
-    android:paddingStart="16dp">
+    android:layout_width="match_parent" android:layout_height="wrap_content">
     <TextView
         android:id="@+id/label_month"
         android:layout_width="match_parent"
@@ -18,10 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_below="@id/label_month"
-        >
-
-    </LinearLayout>
-
+        android:layout_below="@id/label_month" />
 
 </RelativeLayout>
