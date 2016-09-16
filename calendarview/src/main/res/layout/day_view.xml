@@ -4,18 +4,17 @@
     <FrameLayout
         android:id="@+id/tv_day_container"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_centerInParent="true"
-        >
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
         <View
             android:id="@+id/today_circle"
             android:layout_width="30dp"
-            android:layout_height="match_parent"
+            android:layout_height="30dp"
             android:background="@drawable/circle_day"
             android:layout_gravity="center" />
         <TextView
             android:id="@+id/tv_day"
-            android:layout_width="match_parent"
+            android:layout_width="30dp"
             android:layout_height="30dp"
             android:gravity="center"
             android:layout_gravity="center"

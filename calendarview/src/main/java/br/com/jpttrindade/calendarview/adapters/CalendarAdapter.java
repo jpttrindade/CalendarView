@@ -3,6 +3,7 @@ package br.com.jpttrindade.calendarview.adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -85,6 +86,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
     public MonthHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.month_view, parent, false);
 
+
         MonthHolder mh = new MonthHolder(v, viewType, attrs,new CalendarView.OnDayClickListener(){
             @Override
             public void onClick(int day, int month, int year) {
@@ -114,9 +116,10 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
         holder.label_month.setText(mMonthLabels.get(m.value-1) + year);
 
         if(m.value == startMonth && m.year == startYear) {
-            holder.label_month.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+            DisplayMetrics displayMetrics = mContext.getResources().getDisplayMetrics();
+            holder.label_month.setTextSize(TypedValue.COMPLEX_UNIT_PX, (attrs.monthLabelSize+TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 6, displayMetrics)));
         } else {
-            holder.label_month.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+            holder.label_month.setTextSize(TypedValue.COMPLEX_UNIT_PX, (attrs.monthLabelSize));
         }
     }
 

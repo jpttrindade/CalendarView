@@ -1,7 +1,12 @@
 package br.com.jpttrindade.calendarview.holders;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,11 +39,14 @@ public class MonthHolder extends RecyclerView.ViewHolder {
     public MonthHolder(View itemView, int weekRowsCount, CalendarView.Attributes attrs, CalendarView.OnDayClickListener onDayClickListener) {
         super(itemView);
 
+        ((RecyclerView.LayoutParams)itemView.getLayoutParams()).setMargins(0,0,0,attrs.monthDividerSize);
         this.weekRowsCount = weekRowsCount ;
         this.attrs = attrs;
 
         mContext = itemView.getContext();
         label_month = (TextView) itemView.findViewById(R.id.label_month);
+        label_month.getLayoutParams().height = attrs.monthLabelHeight;
+
         weeks_container = (LinearLayout) itemView.findViewById(R.id.weeks_container);
         weeksColumns = new ArrayList<WeekDayView[]>();
         //generateWeekRows();
@@ -84,7 +92,15 @@ public class MonthHolder extends RecyclerView.ViewHolder {
             View event_circle = container.findViewById(R.id.circle);
             View today_circle = container.findViewById(R.id.today_circle);
 
+            ((GradientDrawable) event_circle.getBackground()).setColor(attrs.eventCircleColor);
+            ((GradientDrawable)today_circle.getBackground()).setColor(attrs.todayCircleColor);
+
+            today_circle.getLayoutParams().width = attrs.todayCircleSize;
+            today_circle.getLayoutParams().height = attrs.todayCircleSize;
+
             tv_dayValue = (TextView) container.findViewById(R.id.tv_day);
+            tv_dayValue.getLayoutParams().width = attrs.todayCircleSize;
+            tv_dayValue.getLayoutParams().height = attrs.todayCircleSize;
 
             tv_dayValue.setOnClickListener(new View.OnClickListener() {
                 @Override

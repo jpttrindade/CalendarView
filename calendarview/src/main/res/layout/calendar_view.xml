@@ -5,48 +5,50 @@
         android:id="@+id/label_days"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="24dp"
         android:gravity="center">
         <TextView
             android:text="@string/sunday"
             android:layout_width="48dp"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
+            android:layout_height="match_parent"
+            android:gravity="center"
+
             />
         <TextView
             android:text="@string/monday"
             android:layout_width="48dp"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
+            android:layout_height="match_parent"
+            android:gravity="center"
             />
         <TextView
             android:text="@string/tuesday"
             android:layout_width="48dp"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            />        <TextView
+            android:layout_height="match_parent"
+            android:gravity="center"
+            />
+        <TextView
             android:text="@string/wednesday"
             android:layout_width="48dp"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
+            android:layout_height="match_parent"
+            android:gravity="center"
         />
         <TextView
             android:text="@string/thursday"
             android:layout_width="48dp"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
+            android:layout_height="match_parent"
+            android:gravity="center"
         />
         <TextView
             android:text="@string/friday"
             android:layout_width="48dp"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
+            android:layout_height="match_parent"
+            android:gravity="center"
         />
         <TextView
             android:text="@string/saturday"
             android:layout_width="48dp"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
+            android:layout_height="match_parent"
+            android:gravity="center"
         />
     </LinearLayout>
 

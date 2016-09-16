@@ -11,10 +11,18 @@
     tools:context="br.jpttrindade.calendaviewsample.MainActivity">
 
     <br.com.jpttrindade.calendarview.view.CalendarView
-        android:layout_width="match_parent"
+        android:id="@+id/calendarView"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         app:dayHeight="48dp"
         app:dayWidth="48dp"
-        />
+        app:todayCircleSize="30dp"
+        app:weekdayNameHeight="24dp"
+        app:monthLabelHeight="24dp"
+        app:monthLabelSize="14sp"
+        app:monthDividerSize="48dp"
+        app:eventCircleColor="@color/colorAccent"
+
+   />
 </RelativeLayout>
