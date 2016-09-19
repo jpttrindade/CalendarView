@@ -22,7 +22,8 @@
         app:monthLabelHeight="24dp"
         app:monthLabelSize="14sp"
         app:monthDividerSize="48dp"
-        app:eventCircleColor="@color/colorAccent"
+        app:todayCircleColor="@color/colorPrimary"
+        app:eventCircleColor="@android:color/holo_red_light"
 
    />
 </RelativeLayout>

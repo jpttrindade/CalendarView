@@ -140,13 +140,19 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
                 tv_day = weekColumns[j].tv_value;
                 tv_day.setText("" + days[j].value);
 
-                tv_day.setTextColor((days[j].value == 0) ? Color.TRANSPARENT : Color.BLACK);
 
                 key = String.format("%d%d%d", days[j].value, m.value, m.year);
 
                 v_circle.setVisibility(mEvents.containsKey(key) ? View.VISIBLE : View.INVISIBLE);
 
-                weekColumns[j].v_today_circle.setVisibility((m.year == startYear && m.value == startMonth && days[j].value == today) ? View.VISIBLE : View.GONE);
+                if (m.year == startYear && m.value == startMonth && days[j].value == today) {
+                    tv_day.setTextColor(Color.WHITE);
+                    weekColumns[j].v_today_circle.setVisibility(View.VISIBLE);
+                } else {
+                    tv_day.setTextColor((days[j].value == 0) ? Color.TRANSPARENT : Color.BLACK);
+                    weekColumns[j].v_today_circle.setVisibility(View.GONE);
+                }
+
 
 
             }
