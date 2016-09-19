@@ -1,7 +1,13 @@
 package br.com.jpttrindade.calendarview.holders;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,19 +30,23 @@ public class MonthHolder extends RecyclerView.ViewHolder {
     public LinearLayout weeks_container;
     public ArrayList<WeekDayView[]> weeksColumns;
     public int weekRowsCount;
-    private int weekRowHeight;
-
     public int mMonth;
     public int mYear;
 
+    public CalendarView.Attributes attrs;
 
-    public MonthHolder(View itemView, int weekRowsCount, CalendarView.OnDayClickListener onDayClickListener) {
+
+    public MonthHolder(View itemView, int weekRowsCount, CalendarView.Attributes attrs, CalendarView.OnDayClickListener onDayClickListener) {
         super(itemView);
 
+        ((RecyclerView.LayoutParams)itemView.getLayoutParams()).setMargins(0,0,0,attrs.monthDividerSize);
         this.weekRowsCount = weekRowsCount ;
+        this.attrs = attrs;
 
         mContext = itemView.getContext();
         label_month = (TextView) itemView.findViewById(R.id.label_month);
+        label_month.getLayoutParams().height = attrs.monthLabelHeight;
+
         weeks_container = (LinearLayout) itemView.findViewById(R.id.weeks_container);
         weeksColumns = new ArrayList<WeekDayView[]>();
         //generateWeekRows();
@@ -46,17 +56,18 @@ public class MonthHolder extends RecyclerView.ViewHolder {
 
     public void generateWeekRows() {
         LinearLayout linearLayout;
-        weeks_container.setWeightSum(weekRowsCount);
+        //weeks_container.setWeightSum(weekRowsCount);
+
+
+        LinearLayout.LayoutParams layoutParams;
         for (int i=0; i<weekRowsCount; i++) {
             linearLayout = new LinearLayout(mContext);
-            linearLayout.setLayoutParams(
-                    new LinearLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                            weekRowHeight,
-                            1f));
-            linearLayout.getLayoutParams().height = weekRowHeight;
+            layoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    attrs.dayHeight);
+            linearLayout.setLayoutParams(layoutParams);
             linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-            linearLayout.setWeightSum(7);
+            linearLayout.setGravity(Gravity.CENTER);
             //linearLayout.setBackgroundColor(Color.GREEN);
             generateWeekColumns(linearLayout);
 
@@ -74,13 +85,22 @@ public class MonthHolder extends RecyclerView.ViewHolder {
         View container;
         for (int i=0; i<7; i++) {
             container = inflater.inflate(R.layout.day_view, linearLayout, false);
+            container.getLayoutParams().width = attrs.dayWidth;
 
 
             //tv = new TextView(mContext);
             View event_circle = container.findViewById(R.id.circle);
             View today_circle = container.findViewById(R.id.today_circle);
 
+            ((GradientDrawable) event_circle.getBackground()).setColor(attrs.eventCircleColor);
+            ((GradientDrawable)today_circle.getBackground()).setColor(attrs.todayCircleColor);
+
+            today_circle.getLayoutParams().width = attrs.todayCircleSize;
+            today_circle.getLayoutParams().height = attrs.todayCircleSize;
+
             tv_dayValue = (TextView) container.findViewById(R.id.tv_day);
+            tv_dayValue.getLayoutParams().width = attrs.todayCircleSize;
+            tv_dayValue.getLayoutParams().height = attrs.todayCircleSize;
 
             tv_dayValue.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -103,10 +123,6 @@ public class MonthHolder extends RecyclerView.ViewHolder {
 
     public void setLabelMonthHeight(int labelMonthHeight) {
         this.label_month.getLayoutParams().height = labelMonthHeight;
-    }
-
-    public void setWeekRowHeight(int weekRowHeight) {
-        this.weekRowHeight = weekRowHeight;
     }
 
     public class WeekDayView {

@@ -3,6 +3,7 @@ package br.com.jpttrindade.calendarview.adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -47,16 +48,14 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
     private WeekManager weekManager;
 
 
-    private int monthLabelHeight;
-    private int weekRowHeight;
-
-
     private int PAYLOAD = 3; // o numero de meses que serao carregados antes e depois do mes atual.
     private CalendarView.OnDayClickListener onDayClickListener;
     private HashMap<String, Boolean> mEvents;
+    private CalendarView.Attributes attrs;
 
-    public CalendarAdapter(Context context) {
+    public CalendarAdapter(Context context, CalendarView.Attributes calendarAttrs) {
         mContext = context;
+        attrs = calendarAttrs;
         mMonthLabels = Arrays.asList(context.getResources().getStringArray(R.array.months));
         Calendar c = Calendar.getInstance();
         startYear = c.get(Calendar.YEAR);
@@ -87,7 +86,8 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
     public MonthHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.month_view, parent, false);
 
-        MonthHolder mh = new MonthHolder(v, viewType, new CalendarView.OnDayClickListener(){
+
+        MonthHolder mh = new MonthHolder(v, viewType, attrs,new CalendarView.OnDayClickListener(){
             @Override
             public void onClick(int day, int month, int year) {
                 if (onDayClickListener != null) {
@@ -95,9 +95,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
                 }
             }
         });
-
-        mh.setLabelMonthHeight(monthLabelHeight);
-        mh.setWeekRowHeight(weekRowHeight);
         mh.generateWeekRows();
         return  mh;
     }
@@ -119,9 +116,10 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
         holder.label_month.setText(mMonthLabels.get(m.value-1) + year);
 
         if(m.value == startMonth && m.year == startYear) {
-            holder.label_month.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+            DisplayMetrics displayMetrics = mContext.getResources().getDisplayMetrics();
+            holder.label_month.setTextSize(TypedValue.COMPLEX_UNIT_PX, (attrs.monthLabelSize+TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 6, displayMetrics)));
         } else {
-            holder.label_month.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+            holder.label_month.setTextSize(TypedValue.COMPLEX_UNIT_PX, (attrs.monthLabelSize));
         }
     }
 
@@ -142,13 +140,19 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
                 tv_day = weekColumns[j].tv_value;
                 tv_day.setText("" + days[j].value);
 
-                tv_day.setTextColor((days[j].value == 0) ? Color.TRANSPARENT : Color.BLACK);
 
                 key = String.format("%d%d%d", days[j].value, m.value, m.year);
 
                 v_circle.setVisibility(mEvents.containsKey(key) ? View.VISIBLE : View.INVISIBLE);
 
-                weekColumns[j].v_today_circle.setVisibility((m.year == startYear && m.value == startMonth && days[j].value == today) ? View.VISIBLE : View.GONE);
+                if (m.year == startYear && m.value == startMonth && days[j].value == today) {
+                    tv_day.setTextColor(Color.WHITE);
+                    weekColumns[j].v_today_circle.setVisibility(View.VISIBLE);
+                } else {
+                    tv_day.setTextColor((days[j].value == 0) ? Color.TRANSPARENT : Color.BLACK);
+                    weekColumns[j].v_today_circle.setVisibility(View.GONE);
+                }
+
 
 
             }
@@ -162,13 +166,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
     }
 
 
-    public void setMonthLabelHeight(int monthLabelHeight) {
-        this.monthLabelHeight = monthLabelHeight;
-    }
-
-    public void setWeekRowHeight(int weekRowHeight) {
-        this.weekRowHeight = weekRowHeight;
-    }
 
 
     public void getPreviousMonth() {
@@ -232,4 +229,5 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
         Log.d("DEBUG", "Key = "+ key);
         mEvents.put(key, true);
     }
+
 }
