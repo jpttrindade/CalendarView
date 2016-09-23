@@ -107,7 +107,7 @@ public class MonthHolder extends RecyclerView.ViewHolder {
                 public void onClick(View view) {
                     int day = Integer.parseInt(((TextView)view).getText().toString());
                     if (day > 0) {
-                        mOnDayClickListener.onClick(day, mMonth, mYear);
+                        mOnDayClickListener.onClick(day, mMonth, mYear, false);
                     }
                 }
             });

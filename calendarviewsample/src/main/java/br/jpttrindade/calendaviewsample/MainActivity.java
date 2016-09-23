@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
         calendarView.setOnDayClickListener(new CalendarView.OnDayClickListener() {
             @Override
-            public void onClick(int day, int month, int year) {
-                Toast.makeText(MainActivity.this, day+"/"+month+"/"+year, Toast.LENGTH_SHORT).show();
+            public void onClick(int day, int month, int year, boolean hasEvent) {
+                Toast.makeText(MainActivity.this, day+"/"+month+"/"+year + " hasEvent="+hasEvent, Toast.LENGTH_SHORT).show();
             }
         });
 

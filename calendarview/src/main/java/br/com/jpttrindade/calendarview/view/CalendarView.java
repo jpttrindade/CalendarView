@@ -166,11 +166,11 @@ public class CalendarView extends FrameLayout {
         mCalendarAdapter.setOnDayClickListener(new OnDayClickListener(){
 
             @Override
-            public void onClick(int day, int month, int year) {
+            public void onClick(int day, int month, int year, boolean hasEvent) {
 
                 //Toast.makeText(getContext(), day+"/"+month+"/"+year, Toast.LENGTH_SHORT).show();
                 if (mOnDayClickListener != null) {
-                    mOnDayClickListener.onClick(day, month, year);
+                    mOnDayClickListener.onClick(day, month, year, hasEvent);
                 }
             }
         });
@@ -190,7 +190,7 @@ public class CalendarView extends FrameLayout {
     /* Classes & Interfaces*/
 
     public interface OnDayClickListener {
-        public void onClick(int day, int month, int year);
+        public void onClick(int day, int month, int year, boolean hasEvent);
     }
 
 

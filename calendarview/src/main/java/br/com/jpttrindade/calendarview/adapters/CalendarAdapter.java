@@ -89,9 +89,9 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
 
         MonthHolder mh = new MonthHolder(v, viewType, attrs,new CalendarView.OnDayClickListener(){
             @Override
-            public void onClick(int day, int month, int year) {
+            public void onClick(int day, int month, int year, boolean hasEvent) {
                 if (onDayClickListener != null) {
-                    onDayClickListener.onClick(day, month, year);
+                    onDayClickListener.onClick(day, month, year, hasEvent(day, month, year));
                 }
             }
         });
@@ -141,9 +141,9 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
                 tv_day.setText("" + days[j].value);
 
 
-                key = String.format("%d%d%d", days[j].value, m.value, m.year);
 
-                v_circle.setVisibility(mEvents.containsKey(key) ? View.VISIBLE : View.INVISIBLE);
+
+                v_circle.setVisibility(hasEvent(days[j].value, m.value, m.year) ? View.VISIBLE : View.INVISIBLE);
 
                 if (m.year == startYear && m.value == startMonth && days[j].value == today) {
                     tv_day.setTextColor(Color.WHITE);
@@ -158,6 +158,12 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
             }
         }
 
+    }
+
+    private boolean hasEvent(int day, int month, int year) {
+        String key = String.format("%d%d%d", day, month, year);
+
+        return mEvents.containsKey(key);
     }
 
     @Override
