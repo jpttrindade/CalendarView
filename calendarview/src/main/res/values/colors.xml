@@ -4,6 +4,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="default_todayCircleColor">#ff33b5e5</color>
-    <color name="default_eventCircleColor">#cc0000</color>
+    <color name="default_todayCircleColor">@color/colorPrimary</color>
+    <color name="default_eventCircleColor">@color/colorAccent</color>
 </resources>

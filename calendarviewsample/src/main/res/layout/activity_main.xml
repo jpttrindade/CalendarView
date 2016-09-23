@@ -42,7 +42,7 @@
         app:monthLabelSize="14sp"
         app:monthDividerSize="48dp"
         app:todayCircleColor="@color/colorPrimary"
-        app:eventCircleColor="@android:color/holo_red_light"
+        app:eventCircleColor="#e51c23"
         app:layout_constraintTop_toBottomOf="@+id/editText"
         android:layout_marginStart="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
