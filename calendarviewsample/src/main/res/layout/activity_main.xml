@@ -6,34 +6,22 @@
     android:layout_height="match_parent"
     tools:context="br.jpttrindade.calendaviewsample.MainActivity">
 
-    <EditText
+    <android.support.design.widget.FloatingActionButton
+        android:onClick="showDatePickerDialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="date"
-        android:ems="10"
-        android:id="@+id/editText"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:hint="new event"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="16dp" />
-
-    <Button
-        android:text="add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button"
-        app:layout_constraintBaseline_toBaselineOf="@+id/editText"
-        android:layout_marginStart="48dp"
-        app:layout_constraintLeft_toRightOf="@+id/editText"
-        android:onClick="addEvent"
+        android:clickable="true"
+        app:fabSize="normal"
+        app:srcCompat="@android:drawable/ic_input_add"
+        android:id="@+id/floatingActionButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:backgroundTint="@color/colorPrimary" />
 
     <br.com.jpttrindade.calendarview.view.CalendarView
         android:id="@+id/calendarView"
-        android:layout_width="359dp"
-        android:layout_height="472dp"
         app:dayHeight="48dp"
         app:dayWidth="48dp"
         app:todayCircleSize="30dp"
@@ -43,10 +31,14 @@
         app:monthDividerSize="48dp"
         app:todayCircleColor="@color/colorPrimary"
         app:eventCircleColor="#e51c23"
-        app:layout_constraintTop_toBottomOf="@+id/editText"
-        android:layout_marginStart="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
         android:layout_marginEnd="16dp"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="16dp" />
+        android:layout_marginStart="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" >
+
+    </br.com.jpttrindade.calendarview.view.CalendarView>
 </android.support.constraint.ConstraintLayout>
