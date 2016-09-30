@@ -185,7 +185,9 @@ public class CalendarView extends FrameLayout {
         mCalendarAdapter.addEvent(day, month, year);
     }
 
-
+    public void deleteEvent(int day, int month, int year) {
+        mCalendarAdapter.deleteEvent(day, month, year);
+    }
 
     /* Classes & Interfaces*/
 

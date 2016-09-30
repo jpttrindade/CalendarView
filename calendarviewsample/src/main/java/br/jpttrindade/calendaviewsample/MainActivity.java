@@ -37,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(int day, int month, int year, boolean hasEvent) {
                 Toast.makeText(MainActivity.this, day+"/"+month+"/"+year + " hasEvent="+hasEvent, Toast.LENGTH_SHORT).show();
+                if (hasEvent) {
+                    calendarView.deleteEvent(day, month, year);
+                }
             }
         });
 
