@@ -14,14 +14,14 @@ android:
     - android-sdk-license-.+
     - google-gdk-license-.+
 
-  script:
-    - ./gradlew clean check assemble -Dpre-dex=false
+script:
+  - ./gradlew clean check assemble -Dpre-dex=false
 
-  notifications:
-    email: false
+notifications:
+  email: false
 
-  sudo: false
+sudo: false
 
-  cache:
-    directories:
-      - $HOME/.gradle
+cache:
+  directories:
+    - $HOME/.gradle
