@@ -1,5 +1,5 @@
 # CalendarView  
-[ ![Download](https://api.bintray.com/packages/jpttrindade/br.com.jpttrindade/CalendarView/images/download.svg) ](https://bintray.com/jpttrindade/br.com.jpttrindade/CalendarView/_latestVersion)
+[![Build Status](https://api.travis-ci.org/jpttrindade/CalendarView.svg?branch=master)](https://travis-ci.org/jpttrindade/CalendarView)  [![Download](https://api.bintray.com/packages/jpttrindade/br.com.jpttrindade/CalendarView/images/download.svg) ](https://bintray.com/jpttrindade/br.com.jpttrindade/CalendarView/_latestVersion)  
 
 ![CalendarView GIF][1]
 
