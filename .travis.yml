@@ -14,14 +14,14 @@ android:
 #    - android-sdk-license-.+
 #    - google-gdk-license-.+
 
-before_script:
-  - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
-  - emulator -avd test -no-skin -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
+#before_script:
+#  - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
+#  - emulator -avd test -no-skin -no-audio -no-window &
+#  - android-wait-for-emulator
+#  - adb shell input keyevent 82 &
 
 script:
-  - ./gradlew clean check assemble -Dpre-dex=false
+  - ./gradlew clean assemble -Dpre-dex=false
 
 notifications:
   email: false
@@ -31,3 +31,4 @@ sudo: false
 cache:
   directories:
     - $HOME/.gradle
+
