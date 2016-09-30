@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 def getVersionName()
 {
-    return '0.7.3'
+    return '0.7.5'
 }
 
 ext {
@@ -37,7 +37,7 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 24
-        versionCode 73
+        versionCode 75
         versionName getVersionName()
     }
     buildTypes {
