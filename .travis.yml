@@ -11,3 +11,9 @@ android:
     - extra-google-m2repository
   licenses:
     - android-sdk-license-.+
+    - google-gdk-license-.+
+  script:
+    - ./gradlew build
+  cache:
+    directories:
+    - $HOME/.m2
