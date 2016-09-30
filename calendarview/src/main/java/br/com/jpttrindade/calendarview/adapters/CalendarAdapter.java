@@ -128,6 +128,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
     private void setWeeks(MonthHolder holder, Month m) {
         MonthHolder.WeekDayView[] weekColumns;
         Day[] days;
+        View container;
         TextView tv_day;
         View v_circle;
 
@@ -137,11 +138,12 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
             String key;
             for (int j=0; j<7; j++){
                 v_circle = weekColumns[j].v_event_circle;
+                container = weekColumns[j].container;
                 tv_day = weekColumns[j].tv_value;
                 tv_day.setText("" + days[j].value);
 
-
-
+                container.setTag(days[j].value);
+                container.setClickable(days[j].value!=0);
 
                 v_circle.setVisibility(hasEvent(days[j].value, m.value, m.year) ? View.VISIBLE : View.INVISIBLE);
 
