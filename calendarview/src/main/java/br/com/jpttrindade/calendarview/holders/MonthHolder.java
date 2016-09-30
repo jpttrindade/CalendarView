@@ -85,7 +85,9 @@ public class MonthHolder extends RecyclerView.ViewHolder {
         View container;
         for (int i=0; i<7; i++) {
             container = inflater.inflate(R.layout.day_view, linearLayout, false);
+            container.setTag(i);
             container.getLayoutParams().width = attrs.dayWidth;
+
 
 
             //tv = new TextView(mContext);
@@ -102,10 +104,12 @@ public class MonthHolder extends RecyclerView.ViewHolder {
             tv_dayValue.getLayoutParams().width = attrs.todayCircleSize;
             tv_dayValue.getLayoutParams().height = attrs.todayCircleSize;
 
-            tv_dayValue.setOnClickListener(new View.OnClickListener() {
+
+            container.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int day = Integer.parseInt(((TextView)view).getText().toString());
+
+                    int day = (Integer) view.getTag();//Integer.parseInt(((TextView)view).getText().toString());
                     if (day > 0) {
                         mOnDayClickListener.onClick(day, mMonth, mYear, false);
                     }
@@ -114,7 +118,7 @@ public class MonthHolder extends RecyclerView.ViewHolder {
 
             linearLayout.addView(container);
 
-            columns[i] = new WeekDayView(tv_dayValue, event_circle,  today_circle);
+            columns[i] = new WeekDayView(container, tv_dayValue, event_circle,  today_circle);
         }
         weeksColumns.add(columns);
 
@@ -126,11 +130,13 @@ public class MonthHolder extends RecyclerView.ViewHolder {
     }
 
     public class WeekDayView {
+        public View container;
         public TextView tv_value;
         public View v_today_circle;
         public View v_event_circle;
 
-        public WeekDayView(TextView value, View circle, View v_today_circle) {
+        public WeekDayView(View container,TextView value, View circle, View v_today_circle) {
+            this.container = container;
             this.tv_value = value;
             this.v_event_circle = circle;
             this.v_today_circle = v_today_circle;
