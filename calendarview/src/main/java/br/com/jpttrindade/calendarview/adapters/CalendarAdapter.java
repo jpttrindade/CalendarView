@@ -231,9 +231,13 @@ public class CalendarAdapter extends RecyclerView.Adapter<MonthHolder> {
     public void addEvent(int day, int month, int year) {
         //Month m = getMonth(month, year);
         String key = String.format("%d%d%d", day,month, year);
-        Log.d("DEBUG", "Key = "+ key);
         mEvents.put(key, true);
         notifyDataSetChanged();
     }
 
+    public void deleteEvent(int day, int month, int year) {
+        String key = String.format("%d%d%d", day,month, year);
+        mEvents.remove(key);
+        notifyDataSetChanged();
+    }
 }
