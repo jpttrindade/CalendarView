@@ -9,17 +9,19 @@ android:
     - extra-android-support
     - extra-android-m2repository
     - extra-google-m2repository
+
   licenses:
     - android-sdk-license-.+
     - google-gdk-license-.+
-  script:
-    - ./gradlew build
+
   cache:
     directories:
-    - $HOME/.m2
-    - $HOME/.gradle
+      - $HOME/.m2
+      - $HOME/.gradle
   before_script:
     - echo no | android create avd --force -n test -t android-23 --abi armeabi-v7a
     - emulator -avd test -no-skin -no-audio -no-window &
     - android-wait-for-emulator
     - adb shell input keyevent 82 &
+  script:
+    - ./gradlew connectedAndroidTest
