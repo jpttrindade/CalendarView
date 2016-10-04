@@ -13,7 +13,7 @@ dependencies {
 ## Usage
 
 ## Credits
-
+Designer: [Ismael Gaião Filho][3]
 ## License
 [MIT][2]
 
@@ -21,4 +21,5 @@ dependencies {
 
 [1]: https://github.com/jpttrindade/CalendarView/blob/master/screenshot/sample1.gif
 [2]: https://opensource.org/licenses/MIT
+[3]: http://cargocollective.com/gaiaofilho
 
