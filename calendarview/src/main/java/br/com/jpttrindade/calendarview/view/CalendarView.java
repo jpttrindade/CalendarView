@@ -70,6 +70,7 @@ public class CalendarView extends FrameLayout {
 
         LinearLayout weekDayNames = (LinearLayout) findViewById(R.id.label_days);
         weekDayNames.getLayoutParams().height = calendarAttrs.weekdayHeight;
+        weekDayNames.setBackgroundColor(calendarAttrs.weekdayBackgroundColor);
 
         for (int i = 0; i< weekDayNames.getChildCount(); i++) {
             weekDayNames.getChildAt(i).getLayoutParams().width = calendarAttrs.dayWidth;
@@ -125,8 +126,14 @@ public class CalendarView extends FrameLayout {
         final TypedArray a = mContext.obtainStyledAttributes(attrs, R.styleable.CalendarView, defStyle, 0);
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
 
-
         calendarAttrs.weekdayHeight = (int) a.getDimension(R.styleable.CalendarView_weekdayNameHeight, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) 24, displayMetrics));
+
+        if (TypedValue.TYPE_REFERENCE == a.getType(R.styleable.CalendarView_weekdayNameBackgroundColor)) {
+            calendarAttrs.weekdayBackgroundColor = ContextCompat.getColor(mContext, a.getResourceId(R.styleable.CalendarView_weekdayNameBackgroundColor, R.color.default_backgroundColor));
+        } else {
+            calendarAttrs.weekdayBackgroundColor = a.getColor(R.styleable.CalendarView_weekdayNameBackgroundColor, ContextCompat.getColor(mContext, R.color.default_backgroundColor));
+        }
+
         calendarAttrs.dayHeight = (int) a.getDimension(R.styleable.CalendarView_dayHeight, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) 48, displayMetrics));
         calendarAttrs.dayWidth = (int) a.getDimension(R.styleable.CalendarView_dayWidth, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) 48, displayMetrics));
 
@@ -198,6 +205,8 @@ public class CalendarView extends FrameLayout {
 
     public class Attributes {
         public int weekdayHeight;
+        public int weekdayBackgroundColor;
+
         public int dayWidth;
         public int dayHeight;
 
