@@ -32,9 +32,7 @@
         app:todayCircleColor="@color/colorPrimary"
         app:eventCircleColor="#e51c23"
         android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp" >
+        android:layout_width="match_parent">
 
     </br.com.jpttrindade.calendarview.view.CalendarView>
 </RelativeLayout>
