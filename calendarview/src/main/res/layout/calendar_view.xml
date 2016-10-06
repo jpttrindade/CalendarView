@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="?android:colorBackground">
+    android:layout_width="match_parent" android:layout_height="match_parent">
     <LinearLayout
         android:id="@+id/label_days"
         android:orientation="horizontal"
@@ -58,6 +57,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rl_calendar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/label_days"/>
 
 </RelativeLayout>
