@@ -25,6 +25,7 @@
         <attr name="eventCircleColor" format="color|reference"/>
 
         <attr name="weekdayNameHeight" format="dimension"/>
+        <attr name="weekdayNameBackgroundColor" format="color|reference"/>
 
 
 

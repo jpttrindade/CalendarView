@@ -6,4 +6,5 @@
 
     <color name="default_todayCircleColor">@color/colorPrimary</color>
     <color name="default_eventCircleColor">@color/colorAccent</color>
+    <color name="default_backgroundColor">@android:color/background_light</color>
 </resources>
