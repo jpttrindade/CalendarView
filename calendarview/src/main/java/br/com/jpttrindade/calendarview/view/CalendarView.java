@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Debug;
 import android.support.annotation.StyleableRes;
 import android.support.v4.content.ContextCompat;
@@ -133,6 +134,11 @@ public class CalendarView extends FrameLayout {
         } else {
             calendarAttrs.weekdayBackgroundColor = a.getColor(R.styleable.CalendarView_weekdayNameBackgroundColor, ContextCompat.getColor(mContext, R.color.default_backgroundColor));
         }
+
+        if (!(getBackground() instanceof ColorDrawable)) {
+            setBackgroundResource(R.color.default_backgroundColor);
+        }
+
 
         calendarAttrs.dayHeight = (int) a.getDimension(R.styleable.CalendarView_dayHeight, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) 48, displayMetrics));
         calendarAttrs.dayWidth = (int) a.getDimension(R.styleable.CalendarView_dayWidth, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) 48, displayMetrics));
