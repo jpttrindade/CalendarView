@@ -129,7 +129,15 @@ public class CalendarView extends FrameLayout {
 
         calendarAttrs.weekdayHeight = (int) a.getDimension(R.styleable.CalendarView_weekdayNameHeight, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) 24, displayMetrics));
 
-        if (TypedValue.TYPE_REFERENCE == a.getType(R.styleable.CalendarView_weekdayNameBackgroundColor)) {
+
+
+        TypedValue typedValue = new TypedValue();
+
+        a.getValue(R.styleable.CalendarView_weekdayNameBackgroundColor, typedValue);
+        Log.d("DEBUG", "typedValue = "+typedValue.toString());
+
+        if (typedValue.equals(TypedValue.TYPE_REFERENCE)) {
+//        if (TypedValue.TYPE_REFERENCE == a.getType(R.styleable.CalendarView_weekdayNameBackgroundColor)) {
             calendarAttrs.weekdayBackgroundColor = ContextCompat.getColor(mContext, a.getResourceId(R.styleable.CalendarView_weekdayNameBackgroundColor, R.color.default_backgroundColor));
         } else {
             calendarAttrs.weekdayBackgroundColor = a.getColor(R.styleable.CalendarView_weekdayNameBackgroundColor, ContextCompat.getColor(mContext, R.color.default_backgroundColor));
@@ -145,14 +153,21 @@ public class CalendarView extends FrameLayout {
 
         calendarAttrs.todayCircleSize = (int) a.getDimension(R.styleable.CalendarView_todayCircleSize, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) 30, displayMetrics));
 
-        if (TypedValue.TYPE_REFERENCE == a.getType(R.styleable.CalendarView_todayCircleColor)) {
+        a.getValue(R.styleable.CalendarView_todayCircleColor, typedValue);
+        Log.d("DEBUG", "typedValue = "+typedValue.toString());
+
+        if (typedValue.equals(TypedValue.TYPE_REFERENCE)) {
+       // if (TypedValue.TYPE_REFERENCE == a.getType(R.styleable.CalendarView_todayCircleColor)) {
             calendarAttrs.todayCircleColor = ContextCompat.getColor(mContext, a.getResourceId(R.styleable.CalendarView_todayCircleColor, R.color.default_todayCircleColor));
         } else {
             calendarAttrs.todayCircleColor = a.getColor(R.styleable.CalendarView_todayCircleColor, ContextCompat.getColor(mContext, R.color.default_todayCircleColor));
         }
 
+        a.getValue(R.styleable.CalendarView_eventCircleColor, typedValue);
+        Log.d("DEBUG", "typedValue = "+typedValue.toString());
 
-        if (TypedValue.TYPE_REFERENCE == a.getType(R.styleable.CalendarView_eventCircleColor)) {
+        if (typedValue.equals(TypedValue.TYPE_REFERENCE)) {
+        //if (TypedValue.TYPE_REFERENCE == a.getType(R.styleable.CalendarView_eventCircleColor)) {
             calendarAttrs.eventCircleColor = ContextCompat.getColor(mContext, a.getResourceId(R.styleable.CalendarView_eventCircleColor, R.color.default_eventCircleColor));
         } else {
             calendarAttrs.eventCircleColor = a.getColor(R.styleable.CalendarView_eventCircleColor, ContextCompat.getColor(mContext, R.color.default_eventCircleColor));
